@@ -1,76 +1,81 @@
 public class Main {
     public static void main(String[] args) {
-        int[] a=sum(new int[]{1320}, new int[]{1720});
-        for(int element:a){
-            System.out.println(element);
+        sum(new int[]{17555}, new int[]{13555}); //3.1
+        System.out.println("   ");
+
+        multiplikation(new int[]{54}, new int[]{2});//3.3
+        System.out.println("   ");
+
+        differenz(new int[]{162}, new int[]{122});//3.2
+        System.out.println("   ");
+
+        division(new int[]{352}, new int[]{2});//3.4
+
+
+    }
+    public static void sum(int[] array1, int[] array2) {
+        int[] finalSum = new int[array1.length + 1];
+        int rest = 0;
+
+        for (int i = array1.length - 1; i >= 0; i--) {
+            int digitSum = array1[i] + array2[i] + rest;
+            finalSum[i +1] = digitSum % 10;
+            rest = digitSum / 10;
         }
-        int[] b=multiplikation(new int[]{54}, new int[]{2});
-        for(int element:b) {
-            System.out.println(element);
-        }
-        int[] c=multiplikation(new int[]{541}, new int[]{180});
-        for(int element:c) {
-            System.out.println(element);
+
+        finalSum[0] = rest;
+
+        for (int digit : finalSum) {
+            System.out.print(digit);
         }
     }
-    public static int[] sum(int[] array1, int[] array2) {
-        int[] sum=new int[array1.length];
-        for (int i = 0; i < sum.length; i++) {
-            sum[i] = 0;
-        }
-        int index=array1.length-1;
-        if (array1.length==array2.length){
-            for (int i=array1.length-1;i>0; i--){
-                for (int j=array2.length-1;j>0; j--){
-                    if(sum[index]+array1[i]+array2[j]<9){
-                        sum[index]=sum[index]+array1[i]+array2[j];
-                        index--;
-                    }else{
-                        sum[index]=(sum[index]+array1[i]+array2[j])%10;
-                        index--;
-                        sum[index]=sum[index]+(array1[i]+array2[j])/10;
-                    }
-                }
-            }
-        }
-        return sum;
-    }
-    public static int[] multiplikation(int[] array, int[] x){
+    public static void multiplikation(int[] array, int[] x){
         int[] result=new int[array.length+1];
 
-        int index= array.length-1;
+        int rest=0;
 
-        for (int i=array.length-1;i>0; i--){
-            result[index]=(result[index]+array[i]*x[0])%10;
-            index--;
-            result[index]=(array[i]*x[0])/10;
+        for (int i=array.length-1;i>=0; i--){
+            result[i+1]=(rest+array[i]*x[0])%10;
+            rest=(array[i]*x[0])/10;
         }
-        return result;
+        result[0] = rest;
+        for (int digit : result) {
+            System.out.print(digit);
+        }
     }
 
-    public static int[] differenz(int[] array1, int[] array2){
-        int[] diff=new int[array1.length];
+    public static void differenz(int[] array1, int[] array2){
+        int[] diff=new int[array1.length+1];
 
-        int index=array1.length-1;
-        int ok=0;
-        if (array1.length==array2.length) {
-            for (int i = array1.length - 1; i > 0; i--) {
-                if (ok == 1) {
-                    array1[i]--;
-                }
-                for (int j = array2.length - 1; j > 0; j--) {
-                    if (array1[i] - array2[j] > 0) {
-                        diff[index] = array1[i] - array2[j];
-                        index--;
+        int rest=0;
+        if (array1.length==array2.length) {//exceptie daca nu?
+            for (int i = array1.length - 1; i >= 0; i--) {
+                    if (array1[i] - array2[i] > 0) {
+                        diff[i+1] = rest+array1[i] - array2[i];
                     } else {
-                        diff[index] = 10 + array1[i] - array2[j];
-                        index--;
-                        ok = 1;
+                        diff[i + 1] = (10 + (array1[i] - array2[i])) % 10;
+                        rest = (10 + (array1[i] - array2[i])) / 10;
+                        array1[i - 1]--;
                     }
-                }
+            }
+            diff[0] = rest;
+            for (int digit : diff) {
+                System.out.print(digit);
             }
         }
-        return diff;
     }
+    public static void division(int[] array, int[] x) {
+        int rest = 0;
+        int[] result = new int[array.length];
 
+        for (int i = 0; i < array.length; i++) {
+            int dividend = rest * 10 + array[i];
+            result[i] = dividend / x[0];
+            rest = dividend % x[0];
+        }
+
+        for (int digit : result) {
+            System.out.print(digit);
+        }
+        }
 }
